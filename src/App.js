@@ -6,16 +6,12 @@ import BasicTabs from './BasicTabs';
 import Footer from './Footer';
 import { useState , useEffect } from "react";
 
-import DashBoard from './Dashboard';
-
 function App ()  {
  return( <div className='content'> 
-    <NavBar>
     <Logo />
-    </NavBar>
     <Question />
     <BasicTabs />
-    
+    <Footer/>
   
   </div>
  );
