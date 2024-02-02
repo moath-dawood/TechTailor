@@ -63,4 +63,5 @@ export default function Table({ PC, PcPrice }) {
       </TableContainer>
     </div>
   );
+
 };

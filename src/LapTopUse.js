@@ -36,8 +36,6 @@ export default function LaptopUse() {
       if (response.ok) {
         const data = await response.json();
         setLapTops(data.laptops);
-
-
         setShowBox2(true);
       } else {
         // Handle errors or non-successful responses
@@ -53,8 +51,8 @@ export default function LaptopUse() {
     <div style={{display:"flex", flexDirection:"column"}}>
       <div className="form-row">
         <div className="form-group">
-        <label style={{fontSize:"16px", marginRight:"13px",marginBottom:"15px"}}>What do you want the Laptop for?</label>
-          <select style={{height:"40px",fontSize:"14px", borderColor:"#138A5F",marginBottom:"15px"}} value={option} onChange={handleOptionChange}>
+        <label style={{fontSize:"16px", marginRight:"13px",marginBottom:"10px"}}>What do you want the Laptop for?</label>
+          <select style={{height:"40px",fontSize:"14px", borderColor:"#138A5F",marginBottom:"10px"}} value={option} onChange={handleOptionChange}>
             <option value="">--Please choose an option--</option>
             <option value="Gaming" id="3">Gaming</option>
             <option value="Workstation" id="2">Work Station</option>
@@ -62,8 +60,8 @@ export default function LaptopUse() {
           </select>
         </div>
         <div className="form-group">
-        <label style={{fontSize:"16px",marginBottom:"15px"}}>What is your budget?</label>
-          <input style={{height:"40px",padding:"10px",fontSize:"14px",borderColor:"#138A5F",marginBottom:"15px", border:"1px #138A5F solid"}} type="text" placeholder="1000$" value={budget} onChange={handleBudgetchange} />
+        <label style={{fontSize:"16px",marginBottom:"10px"}}>What is your budget?</label>
+          <input style={{height:"40px",padding:"10px",fontSize:"14px",borderColor:"#138A5F",marginBottom:"10px", border:"1px #138A5F solid"}} type="text" placeholder="1000$" value={budget} onChange={handleBudgetchange} />
         </div>
       </div>
       <Button variant="outlined"
@@ -77,8 +75,8 @@ export default function LaptopUse() {
           },
           color: "white",
           margin:"auto",
-          marginBottom:"20px",
-          marginTop: "10px",
+          marginBottom:"10px",
+          marginTop: "5px",
           borderRadius: "15px",
           fontSize: "17px",
           width: "150px",

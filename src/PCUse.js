@@ -35,12 +35,9 @@ export default function PCUse() {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log('Backend response:', data);
         setPCs(data.PCs);
-        console.log(data);
         setShowBox2(true);
       } else {
-        // Handle errors or non-successful responses
         console.error('Backend request failed:', response.statusText);
       }
     } catch (error) {
@@ -52,8 +49,8 @@ export default function PCUse() {
     <div style={{display:"flex", flexDirection:"column"}}>
       <div className="form-row">
         <div className="form-group">
-          <label style={{fontSize:"16px", marginRight:"10px", marginBottom:"15px" }}>What do you want the PC for?</label>
-          <select style={{height:"40px",fontSize:"14px", borderColor:"#138A5F",marginBottom:"15px"}} value={option} onChange={handleOptionChange}>
+          <label style={{fontSize:"16px", marginRight:"10px", marginBottom:"10px" }}>What do you want the PC for?</label>
+          <select style={{height:"40px",fontSize:"14px", borderColor:"#138A5F",marginBottom:"10px"}} value={option} onChange={handleOptionChange}>
             <option value="">--Please choose an option--</option>
             <option value="Gaming" id="4" > Gaming </option>
             <option value="Graphic design" id="3"> Graphic design </option>
@@ -62,8 +59,8 @@ export default function PCUse() {
           </select>
         </div>
         <div className="form-group">
-          <label style={{fontSize:"16px",marginBottom:"15px"}}>What is your budget?</label>
-          <input style={{height:"40px",padding:"10px",fontSize:"14px",borderColor:"#138A5F",marginBottom:"15px", border:"1px #138A5F solid"}} type="text" placeholder="1000$" value={budget} onChange={handleBudgetchange} />
+          <label style={{fontSize:"16px",marginBottom:"10px"}}>What is your budget?</label>
+          <input style={{height:"40px",padding:"10px",fontSize:"14px",borderColor:"#138A5F",marginBottom:"10px", border:"1px #138A5F solid"}} type="text" placeholder="1000$" value={budget} onChange={handleBudgetchange} />
         </div>
       </div>
       <Button variant="outlined"
@@ -77,9 +74,9 @@ export default function PCUse() {
           },
           color: "white",
           margin:"auto",
-          marginTop: "10px",
+          marginTop: "5px",
           borderRadius: "15px",
-          marginBottom:"20px",
+          marginBottom:"10px",
           fontSize: "17px",
           width: "150px",
           height: "50px",
