@@ -1,99 +1,191 @@
 import { useState } from "react";
 import CustomTabPanel from "./CustomTabPanel";
-import { Tab , Box , Tabs } from "@mui/material";
+import { Tab, Box, Tabs } from "@mui/material";
 import Table from "./Table";
 import { a11yProps } from "./CustomTabPanel";
 import LaptopView from "./LaptopView";
-export default function Options({PCs , laptops , mobiles}) {
-    const [value, setValue] = useState(0);
-    const handleChange = (event, newValue) => {
-      setValue(newValue);
-    };
-  
-    return (
-      <div className="box">
-        { PCs ? (
+export default function Options({ PCs, laptops, mobiles }) {
+  const [value, setValue] = useState(0);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  return (
+    <div className="OPbox">
+      {PCs ? (
         <Box sx={{ width: "100%" }}>
-          <Box sx={{ borderBottom: 1, bgcolor: "background.paper" }}>
+          <Box sx={{ border:" 2px solid #138A5F", borderTop:"0px",borderRight:"0px",borderLeft:"0px", bgcolor: "background.paper" }}>
             <Tabs
               value={value}
               onChange={handleChange}
               aria-label="basic tabs example"
               centered
+              textColor="inherit"
+              indicatorColor="#138A5F"
+              TabIndicatorProps={{
+                style: {
+                  backgroundColor: "#138A5F",
+                }
+              }}
+              sx={{
+                width:"100%",
+                padding:"10px",
+                "& button": {
+                  fontSize: "13px",
+                  marginTop:"5px",
+                },
+                "& button:hover": {
+                  bgcolor:"#d0d0d0",
+                  borderRadius: "10px",
+                  color:"#138A5F"
+                },
+                "& button:focus": {
+                  border:"1px solid",
+                  color: "black",
+                  borderRadius: "10px"
+                },
+                "& button.Mui-selected":{
+                  color: "#138A5F",
+                  border:"1px solid",
+                  borderRadius: "10px",
+                  marginBottom:"5px",
+                },
+                "& button:active": {
+                  color: "#138A5F",
+                  borderRadius: "10px"
+                  },
+                  
+                fontFamily:"'Open Sans', sans-serif;"
+              }}
             >
-              <Tab label=" Option 1  " {...a11yProps(0)} />
-              <Tab label="Option 2 " {...a11yProps(1)} />
-              <Tab label="Option 3 " {...a11yProps(2)} />
+              {PCs.map((option, index) => (
+                <Tab sx={{marginRight:"15px"}} key={index} label={`Option ${index + 1}`} {...a11yProps(index)} />
+              ))}
             </Tabs>
           </Box>
-          <CustomTabPanel value={value} index={0}>
-            <Table PC={PCs[0].pc } PcPrice={PCs[0].total_price}    />
+          {PCs.map((pcItem, index) => (
+            <CustomTabPanel key={index} value={value} index={index}>
+              <Table PC={pcItem.pc} PcPrice={pcItem.total_price} />
             </CustomTabPanel>
-          <CustomTabPanel value={value} index={1}>
-            <Table PC={PCs[1].pc } PcPrice={PCs[1].total_price}  />
-          </CustomTabPanel>
-          <CustomTabPanel value={value} index={2}>
-            <Table PC={PCs[2].pc } PcPrice={PCs[2].total_price} />
-          </CustomTabPanel>
-          
+          ))}
         </Box>
-        ): null}
+      ) : null}
 
-        {laptops ? ( 
+      {laptops ? (
         <Box sx={{ width: "100%" }}>
-          <Box sx={{ borderBottom: 1, bgcolor: "background.paper" }}>
+          <Box sx={{ border:" 2px solid #138A5F", borderTop:"0px",borderRight:"0px",borderLeft:"0px", bgcolor: "background.paper" }}>
             <Tabs
               value={value}
               onChange={handleChange}
               aria-label="basic tabs example"
               centered
+              textColor="inherit"
+            indicatorColor="#138A5F"
+            TabIndicatorProps={{
+              style: {
+                backgroundColor: "#138A5F",
+              }
+            }}
+            sx={{
+              width:"100%",
+              padding:"10px",
+              "& button": {
+                fontSize: "13px",
+                marginTop:"5px",
+              },
+              "& button:hover": {
+                bgcolor:"#d0d0d0",
+                borderRadius: "10px",
+                color:"#138A5F"
+              },
+              "& button:focus": {
+                border:"1px solid",
+                color: "black",
+                borderRadius: "10px"
+              },
+              "& button.Mui-selected":{
+                color: "#138A5F",
+                border:"1px solid",
+                borderRadius: "10px",
+                marginBottom:"5px",
+              },
+              "& button:active": {
+                color: "#138A5F",
+                borderRadius: "10px"
+                },
+                
+              fontFamily:"'Open Sans', sans-serif;"
+            }}
             >
-              <Tab label=" Option 1  " {...a11yProps(0)} />
-              <Tab label="Option 2 " {...a11yProps(1)} />
-              <Tab label="Option 3 " {...a11yProps(2)} />
+              {laptops.map((option, index) => (
+                <Tab sx={{marginRight:"15px"}} key={index} label={`Option ${index + 1}`} {...a11yProps(index)} />
+              ))}
             </Tabs>
           </Box>
-          <CustomTabPanel value={value} index={0}>
-            <LaptopView laptop={laptops[0].laptop} lapPrice={laptops[0].price}/>
-            {console.log(laptops[0].laptop)}
-
-          </CustomTabPanel>
-          <CustomTabPanel value={value} index={1}>
-          <LaptopView laptop={laptops[1].laptop } lapPrice={laptops[1].price}/>
-
-          </CustomTabPanel>
-          <CustomTabPanel value={value} index={2}>
-          <LaptopView laptop={laptops[2].laptop} lapPrice={laptops[2].price}/>
-
-          </CustomTabPanel> 
-          </Box>): null}
-          {mobiles ? ( 
+          {laptops.map((LapItem, index) => (
+            <CustomTabPanel key={index} value={value} index={index}>
+              <LaptopView laptop={LapItem.device} lapPrice={LapItem.price} />
+            </CustomTabPanel>
+          ))}
+        </Box>) : null}
+      {mobiles ? (
         <Box sx={{ width: "100%" }}>
-          <Box sx={{ borderBottom: 1, bgcolor: "background.paper" }}>
+          <Box sx={{border:" 2px solid #138A5F", borderTop:"0px",borderRight:"0px",borderLeft:"0px", bgcolor: "background.paper",width:"100%" }}>
             <Tabs
               value={value}
               onChange={handleChange}
               aria-label="basic tabs example"
               centered
+              textColor="inherit"
+            indicatorColor="#138A5F"
+            TabIndicatorProps={{
+              style: {
+                backgroundColor: "#138A5F",
+              }
+            }}
+            sx={{
+              width:"100%",
+              padding:"10px",
+              "& button": {
+                fontSize: "13px",
+                marginTop:"5px",
+              },
+              "& button:hover": {
+                bgcolor:"#d0d0d0",
+                borderRadius: "10px",
+                color:"#138A5F"
+              },
+              "& button:focus": {
+                border:"1px solid",
+                color: "black",
+                borderRadius: "10px"
+              },
+              "& button.Mui-selected":{
+                color: "#138A5F",
+                border:"1px solid",
+                borderRadius: "10px",
+                marginBottom:"5px",
+              },
+              "& button:active": {
+                color: "#138A5F",
+                borderRadius: "10px"
+                },
+                width:"100%",
+              fontFamily:"'Open Sans', sans-serif;"
+            }}
             >
-              <Tab label=" Option 1  " {...a11yProps(0)} />
-              <Tab label="Option 2 " {...a11yProps(1)} />
-              <Tab label="Option 3 " {...a11yProps(2)} />
+              {mobiles.map((option, index) => (
+                <Tab sx={{marginRight:"15px"}} key={index} label={`Option ${index + 1}`} {...a11yProps(index)} />
+              ))}
+              
             </Tabs>
           </Box>
-          <CustomTabPanel value={value} index={0}>
-            <LaptopView mobile={mobiles[0]?.mobile} mobilePrice={mobiles[0].price}/>
-          </CustomTabPanel>
-          <CustomTabPanel value={value} index={1}>
-          <LaptopView mobile={mobiles[1]?.mobile} mobilePrice={mobiles[1].price}/>
-
-          </CustomTabPanel>
-          <CustomTabPanel value={value} index={2}>
-          <LaptopView mobile={mobiles[2]?.mobile} mobilePrice={mobiles[2].price}/>
-
-          </CustomTabPanel> 
-          </Box>): null}
-      </div>
-    );
-  }
-  
+          {mobiles.map((mobileItem, index) => (
+            <CustomTabPanel key={index} value={value} index={index}>
+              <LaptopView mobile={mobileItem.mobile} mobilePrice={mobileItem.price} />
+            </CustomTabPanel>
+          ))}
+        </Box>) : null}
+    </div>
+  );
+}
