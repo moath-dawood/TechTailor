@@ -161,3 +161,7 @@ footer {
       width: 80%;
   }
 }
+tr:hover {
+  cursor: pointer;
+  background-color: #c2b4b4; 
+}

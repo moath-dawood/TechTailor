@@ -14,12 +14,13 @@ export default function PhoneUse() {
   const [goodForBrowsing, setGoodForBrowsing] = useState(false);
 
   const handleCheckboxChange = (checkboxId) => {
-
-    const updatedSelection = selectedCheckbox.includes(checkboxId)
-      ? selectedCheckbox.filter((id) => id !== checkboxId)
-      : [...selectedCheckbox, checkboxId];
-
-    setselectedcheckbox(updatedSelection);
+     let updatedSelection;
+     if (selectedCheckbox.includes(checkboxId)) {
+      updatedSelection = selectedCheckbox.filter((id) => id !== checkboxId);
+  } else {
+      updatedSelection = [...selectedCheckbox.filter((id) => id !== (checkboxId === 1 ? 4 : 1)), checkboxId];
+  }
+  setselectedcheckbox(updatedSelection);
   };
 
   const handleBudgetChange = (event) => {
@@ -57,9 +58,6 @@ export default function PhoneUse() {
       console.error('Error sending data to backend:', error);
     }
   };
-
-
-
   const handleGoodPerformanceChange = () => {
     setGoodPerformance(!goodPerformance);
 
