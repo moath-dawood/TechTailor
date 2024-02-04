@@ -85,7 +85,8 @@ export default function DashBoard() {
       setTimeout(() => {
         setOperationResult('');
       }, 2000);
-
+      handleFetch(selectedbtn)
+      
     } catch (error) {
       console.error('Error deleting item:', error);
       setOperationResult('Delete failed. Please try again.');
@@ -147,7 +148,7 @@ console.log(token)
       </div>
       <a href="/"><img style={{ height: "200px", display: "flex", margin: "auto", marginTop: "30px", marginBottom: "30px" }} src={logo} alt="" /></a>
       <div style={{ display: "flex", flexDirection: "column", backgroundColor: "white", width: "fit-content", margin: "auto", padding: "30px", borderRadius: "15px" }}>
-        <div className="btn-group">
+        <div className="btn-group0">
           <button className="btn" onClick={() => { handleClickBtn('motherboards'); handleFetch('motherboards') }} > Motherboard  </button>
           <button className="btn" onClick={() => { handleClickBtn('cpus'); handleFetch('cpus') }}> CPU  </button>
           <button className="btn" onClick={() => { handleClickBtn('gpus'); handleFetch('gpus') }}> GPU </button>
