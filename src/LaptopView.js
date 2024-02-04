@@ -52,7 +52,7 @@ export default function LaptopView({ laptop, lapPrice, mobile, mobilePrice }) {
                 backgroundColor: 'rgba(0, 0, 0, 0.5)'
               },
               content: {
-                maxWidth: '35%',
+                maxWidth: '40%',
                 margin: 'auto',
               },
             }}
@@ -67,13 +67,13 @@ export default function LaptopView({ laptop, lapPrice, mobile, mobilePrice }) {
 function Details({ item }) {
 
   return (
-    <div style={{width:"85%", margin:"auto"}}>
-      <h2 style={{ margin: "auto", textAlign: "center", marginBottom: "20px", color:"#3"}}>{item?.name}</h2>
-      {Object.entries(item).map(([key, value]) => ( 
+    <div style={{ width: "fit-content", margin: "auto" }}>
+      <h2 style={{ margin: "auto", textAlign: "center", marginTop: "10px", padding: "15px", backgroundColor: "#138A5F", marginBottom: "20px", borderRadius: "10px", width: "fit-content", color: "white" }}>{item?.name}</h2>
+      {Object.entries(item).map(([key, value]) => (
         !(key === 'name' || key === 'id' || key === 'updated_at' || key === 'status' || key === 'created_at' || key === 'image' || key === 'external_image') &&
-        <TableRow sx={{width:"100%"}}>
-          <TableCell sx={{ fontSize: "18px", width:"50%", fontWeight:"600", textAlign:"center" }} >{key.charAt(0).toUpperCase() + key.slice(1)}</TableCell>
-          <TableCell sx={{ fontSize: "18px", width:"50%", textAlign:"center"  }}>{String(value).replace(/â€‰/g, ' ')}</TableCell>
+        <TableRow sx={{ width: "100%", margin: "auto" }}>
+          <TableCell sx={{ fontSize: "18px", width: "50%", fontWeight: "600", textAlign: "left" }}>{key.replace(/_/g, ' ').toUpperCase()}</TableCell>
+          <TableCell sx={{ fontSize: "18px", width: "50%", textAlign: "left" }}>{typeof value === 'boolean' ? (value ? 'Yes' : 'No') : String(value).replace(/â€‰/g, ' ')}</TableCell>
         </TableRow>
       ))}
     </div>

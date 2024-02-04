@@ -1,21 +1,24 @@
 import React from 'react';
-import NavBar from './NavBar';
-import Logo from './Logo';
-import { Question } from './Question';
-import BasicTabs from './BasicTabs';
-import Footer from './Footer';
-import { useState , useEffect } from "react";
+import { Login } from "./Login";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Dashboard from './Dashboard';
+import { AuthProvider } from "./Auth";
+import Homepage from './Homepage';
 
-function App ()  {
- return( <div className='content'> 
-    <Logo />
-    <Question />
-    <BasicTabs />
-    <Footer/>
-  
+function App() {
+  return (<div className="App">
+    <Router>
+      <AuthProvider>
+        <Routes>
+          <Route path="/login" exact element={<Login />} />
+          <Route path="/dashboard" exact element={<Dashboard />} />
+          <Route index exact element={<Homepage />} />
+        </Routes>
+      </AuthProvider>
+    </Router>
   </div>
- );
+  );
 }
-export default App; 
+export default App;
 
 

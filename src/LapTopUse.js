@@ -1,12 +1,14 @@
 import { useState } from "react";
 import Options from "./Options";
 import { Button } from "@mui/material";
+import { Alert } from "@mui/material";
 
 export default function LaptopUse() {
   const [selectedUse, setselectedUse] = useState("");
   const [option, setOption] = useState("");
   const [budget, setBudget] = useState('');
   const [Laptops, setLapTops] = useState([]);
+  const [errorStatement, setErrorStatement] = useState('')
   const [showBox2, setShowBox2] = useState(false);
 
   function handleOptionChange(event) {
@@ -21,47 +23,49 @@ export default function LaptopUse() {
     setBudget(event.target.value)
   };
   const handleGenerateClick = async () => {
-    const requestData = {
-      field_id: parseInt(selectedUse.id),
-      budget: parseFloat(budget),
-    };
-    try {
-      const response = await fetch('http://127.0.0.1:8000/pick-laptop/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setLapTops(data.laptops);
-        setShowBox2(true);
-      } else {
-        // Handle errors or non-successful responses
-        console.error('Backend request failed:', response.statusText);
+    if (option.length > 0) {
+      setErrorStatement("")
+      const requestData = {
+        field_id: parseInt(selectedUse.id),
+        budget: parseFloat(budget),
+      };
+      try {
+        const response = await fetch('http://127.0.0.1:8000/pick-laptop/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestData),
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setLapTops(data.laptops);
+          setShowBox2(true);
+        } else {
+          console.error('Backend request failed:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error sending data to backend:', error);
       }
-    } catch (error) {
-      console.error('Error sending data to backend:', error);
-    }
+    } else setErrorStatement("Please select a usage.")
   };
 
 
   return (
-    <div style={{display:"flex", flexDirection:"column"}}>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <div className="form-row">
         <div className="form-group">
-        <label style={{fontSize:"16px", marginRight:"13px",marginBottom:"10px"}}>What do you want the Laptop for?</label>
-          <select style={{height:"40px",fontSize:"14px", borderColor:"#138A5F",marginBottom:"10px"}} value={option} onChange={handleOptionChange}>
+          <label style={{ fontSize: "16px", marginRight: "13px", marginBottom: "10px" }}>What do you want the Laptop for?</label>
+          <select style={{ height: "40px", fontSize: "14px", borderColor: "#138A5F", marginBottom: "10px" }} value={option} onChange={handleOptionChange}>
             <option value="">--Please choose an option--</option>
             <option value="Gaming" id="3">Gaming</option>
-            <option value="Workstation" id="2">Work Station</option>
+            <option value="Workstation" id="2">Workstation</option>
             <option value="Home" id="1"> Home</option>
           </select>
         </div>
         <div className="form-group">
-        <label style={{fontSize:"16px",marginBottom:"10px"}}>What is your budget?</label>
-          <input style={{height:"40px",padding:"10px",fontSize:"14px",borderColor:"#138A5F",marginBottom:"10px", border:"1px #138A5F solid"}} type="text" placeholder="1000$" value={budget} onChange={handleBudgetchange} />
+          <label style={{ fontSize: "16px", marginBottom: "10px" }}>What is your budget?</label>
+          <input style={{ height: "40px", padding: "10px", fontSize: "16px", borderColor: "#138A5F", marginBottom: "10px", border: "1px #138A5F solid" }} type="number" placeholder="$" value={budget} onChange={handleBudgetchange} />
         </div>
       </div>
       <Button variant="outlined"
@@ -71,11 +75,11 @@ export default function LaptopUse() {
             borderRadius: "15px",
             borderColor: "#138A5F",
             color: "#138A5F",
-            fontWeight:"600"
+            fontWeight: "600"
           },
           color: "white",
-          margin:"auto",
-          marginBottom:"10px",
+          margin: "auto",
+          marginBottom: "10px",
           marginTop: "5px",
           borderRadius: "15px",
           fontSize: "17px",
@@ -85,8 +89,8 @@ export default function LaptopUse() {
           backgroundColor: "#138A5F",
         }}
         onClick={handleGenerateClick}>Generate</Button>
+      {errorStatement && <Alert sx={{ marginBottom: "10px" }} severity="error">{errorStatement}</Alert>}
       {showBox2 && <Options laptops={Laptops} />
-
       }
 
 

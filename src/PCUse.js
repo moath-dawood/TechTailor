@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import Options from './Options';
 import Button from '@mui/material/Button';
+import { Alert } from '@mui/material';
 
 export default function PCUse() {
   const [showBox2, setShowBox2] = useState(false);
   const [option, setoption] = useState('');
   const [selectedUse, setselectedUse] = useState({ id: '', value: '' });
   const [budget, setBudget] = useState('');
+  const [errorStatement, setErrorStatement] = useState('')
   const [PCs, setPCs] = useState([])
 
   function handleOptionChange(event) {
@@ -21,36 +23,39 @@ export default function PCUse() {
     setBudget(event.target.value)
   };
   const handleGenerateClick = async () => {
-    const requestData = {
-      field_id: parseInt(selectedUse.id),
-      budget: parseFloat(budget),
-    };
-    try {
-      const response = await fetch('http://127.0.0.1:8000/pick-pc/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setPCs(data.PCs);
-        setShowBox2(true);
-      } else {
-        console.error('Backend request failed:', response.statusText);
+    if (option.length > 0) {
+      setErrorStatement("")
+      const requestData = {
+        field_id: parseInt(selectedUse.id),
+        budget: parseFloat(budget),
+      };
+      try {
+        const response = await fetch('http://127.0.0.1:8000/pick-pc/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestData),
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setPCs(data.PCs);
+          setShowBox2(true);
+        } else {
+          console.error('Backend request failed:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error sending data to backend:', error);
       }
-    } catch (error) {
-      console.error('Error sending data to backend:', error);
-    }
+    } else setErrorStatement("Please select a usage")
   };
 
   return (
-    <div style={{display:"flex", flexDirection:"column"}}>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <div className="form-row">
         <div className="form-group">
-          <label style={{fontSize:"16px", marginRight:"10px", marginBottom:"10px" }}>What do you want the PC for?</label>
-          <select style={{height:"40px",fontSize:"14px", borderColor:"#138A5F",marginBottom:"10px"}} value={option} onChange={handleOptionChange}>
+          <label style={{ fontSize: "16px", marginRight: "10px", marginBottom: "10px" }}>What do you want the PC for?</label>
+          <select style={{ height: "40px", fontSize: "14px", borderColor: "#138A5F", marginBottom: "10px" }} value={option} onChange={handleOptionChange}>
             <option value="">--Please choose an option--</option>
             <option value="Gaming" id="4" > Gaming </option>
             <option value="Graphic design" id="3"> Graphic design </option>
@@ -59,8 +64,8 @@ export default function PCUse() {
           </select>
         </div>
         <div className="form-group">
-          <label style={{fontSize:"16px",marginBottom:"10px"}}>What is your budget?</label>
-          <input style={{height:"40px",padding:"10px",fontSize:"14px",borderColor:"#138A5F",marginBottom:"10px", border:"1px #138A5F solid"}} type="text" placeholder="1000$" value={budget} onChange={handleBudgetchange} />
+          <label style={{ fontSize: "16px", marginBottom: "10px" }}>What is your budget?</label>
+          <input style={{ height: "40px", padding: "10px", fontSize: "16px", borderColor: "#138A5F", marginBottom: "10px", border: "1px #138A5F solid" }} type="number" placeholder="1000$" value={budget} onChange={handleBudgetchange} />
         </div>
       </div>
       <Button variant="outlined"
@@ -70,13 +75,13 @@ export default function PCUse() {
             borderRadius: "15px",
             borderColor: "#138A5F",
             color: "#138A5F",
-            fontWeight:"600"
+            fontWeight: "600"
           },
           color: "white",
-          margin:"auto",
+          margin: "auto",
           marginTop: "5px",
           borderRadius: "15px",
-          marginBottom:"10px",
+          marginBottom: "10px",
           fontSize: "17px",
           width: "150px",
           height: "50px",
@@ -84,6 +89,7 @@ export default function PCUse() {
           backgroundColor: "#138A5F",
         }}
         onClick={handleGenerateClick}>Generate</Button>
+      {errorStatement && <Alert severity="error">{errorStatement}</Alert>}
       {showBox2 && <Options PCs={PCs} />}
     </div>
   );

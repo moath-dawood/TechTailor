@@ -5,22 +5,24 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { Box, Button } from "@mui/material";
 import { Typography } from "@mui/material";
+import { Alert } from "@mui/material";
 export default function PhoneUse() {
   const [selectedCheckbox, setselectedcheckbox] = useState([]);
   const [budget, setBudget] = useState('');
   const [mobile, setMobile] = useState([]);
+  const [errorStatement, setErrorStatement] = useState('')
   const [showBox2, setShowBox2] = useState(false);
   const [goodPerformance, setGoodPerformance] = useState(false);
   const [goodForBrowsing, setGoodForBrowsing] = useState(false);
 
   const handleCheckboxChange = (checkboxId) => {
-     let updatedSelection;
-     if (selectedCheckbox.includes(checkboxId)) {
+    let updatedSelection;
+    if (selectedCheckbox.includes(checkboxId)) {
       updatedSelection = selectedCheckbox.filter((id) => id !== checkboxId);
-  } else {
+    } else {
       updatedSelection = [...selectedCheckbox.filter((id) => id !== (checkboxId === 1 ? 4 : 1)), checkboxId];
-  }
-  setselectedcheckbox(updatedSelection);
+    }
+    setselectedcheckbox(updatedSelection);
   };
 
   const handleBudgetChange = (event) => {
@@ -28,40 +30,41 @@ export default function PhoneUse() {
     setBudget(event.target.value);
   };
   const handleGenerateClick = async () => {
-    const requestData = {
+    if (selectedCheckbox.length > 0) {
+      setErrorStatement("")
+      const requestData = {
 
-      field_id: selectedCheckbox,
-      budget: parseFloat(budget),
-    };
+        field_id: selectedCheckbox,
+        budget: parseFloat(budget),
+      };
+      try {
+        const response = await fetch('http://127.0.0.1:8000/pick-mobile/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestData),
+        });
+        if (response.ok) {
+          setselectedcheckbox(selectedCheckbox)
+          console.log(requestData);
+          const data = await response.json();
+          console.log('Backend response:', data);
+          setMobile(data.mobiles);
+          setShowBox2(true);
+        } else {
+          console.error('Backend request failed:', response.statusText);
+        }
 
-    try {
-      const response = await fetch('http://127.0.0.1:8000/pick-mobile/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData),
-      });
-      if (response.ok) {
-        setselectedcheckbox(selectedCheckbox)
-        console.log(requestData);
-        const data = await response.json();
-        console.log('Backend response:', data);
-        setMobile(data.mobiles);
-      setShowBox2(true);
-      } else {
-        // Handle errors or non-successful responses
-        console.error('Backend request failed:', response.statusText);
+      } catch (error) {
+        console.error('Error sending data to backend:', error);
+
       }
+    } else setErrorStatement("Please select at least one usage.")
 
-    } catch (error) {
-      console.error('Error sending data to backend:', error);
-    }
   };
   const handleGoodPerformanceChange = () => {
     setGoodPerformance(!goodPerformance);
-
-    // Disable "good for browsing" when "good performance" is selected
     if (!goodPerformance) {
       setGoodForBrowsing(false);
     }
@@ -69,8 +72,6 @@ export default function PhoneUse() {
 
   const handleGoodForBrowsingChange = () => {
     setGoodForBrowsing(!goodForBrowsing);
-
-    // Disable "good performance" when "good for browsing" is selected
     if (!goodForBrowsing) {
       setGoodPerformance(false);
     }
@@ -103,7 +104,7 @@ export default function PhoneUse() {
         </div>
         <div className="form-group">
           <label style={{ fontSize: "16px", marginBottom: "15px" }}>What is your budget?</label>
-          <input style={{ height: "40px", padding: "10px", fontSize: "14px", borderColor: "#138A5F", marginBottom: "15px", border: "1px #138A5F solid" }} type="text" placeholder="1000$" value={budget} onChange={handleBudgetChange} />
+          <input style={{ height: "40px", padding: "10px", fontSize: "16px", borderColor: "#138A5F", marginBottom: "15px", border: "1px #138A5F solid" }} type="number" placeholder="$" value={budget} onChange={handleBudgetChange} />
         </div>
       </div>
       <Button variant="outlined"
@@ -127,6 +128,7 @@ export default function PhoneUse() {
           backgroundColor: "#138A5F",
         }}
         onClick={handleGenerateClick}>Generate</Button>
+      {errorStatement && <Alert sx={{ marginBottom: "10px" }} severity="error">{errorStatement}</Alert>}
       {showBox2 && <Options mobiles={mobile} />
 
       }
