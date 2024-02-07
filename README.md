@@ -1,7 +1,6 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
 Welcome to Tech Tailor, your personalized guide to finding the perfect computing device tailored to your needs! Whether you're a professional in the creative industry, a student on a tight budget, or a gaming enthusiast looking for the latest and greatest hardware, Tech Tailor is here to simplify your decision-making process.
 
@@ -14,3 +13,5 @@ Why you should use it:
 * Streamline the device selection process and save time with a user-friendly interface, eliminating the need for extensive research.
 * Benefit from an evolving system that learns from your interactions, providing transparent insights into the decision-making process and ensuring up-to-date recommendations
 <!-- :smile: -->
+Backend link
+[https://github.com/engomardraidi/tech_tailor_graduation_project]
