@@ -14,4 +14,4 @@ Why you should use it:
 * Benefit from an evolving system that learns from your interactions, providing transparent insights into the decision-making process and ensuring up-to-date recommendations
 <!-- :smile: -->
 Backend link
-[https://github.com/engomardraidi/tech_tailor_graduation_project](Backend link)
+https://github.com/engomardraidi/tech_tailor_graduation_project
